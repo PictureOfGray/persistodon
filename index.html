@@ -167,10 +167,10 @@
       let params = new URLSearchParams(toDoList);
 
       // 3. get the current url from window.location
-      let curUrl = window.location;
+      let curUrl = window.location.href.split("?")[0];
 
       // 4. set the current url's search property to '?' concatenated with: the urlsearchparams object's tostring 
-      // curUrl.search = "?" + params.toString();
+      curUrl.search = "?" + params.toString();
 
       // 5. update the window.location to the result of the preceding step
       window.location.assign(curUrl + "?" + params.toString());
@@ -185,9 +185,6 @@
       const queryString = window.location.search;
       console.log("hey look its the query string", queryString);
       // 2. if there is such data in the querystring, replace the state in localStorage with the data in the URL
-      if (queryString != null) {
-        localStorage.setItem("items", queryString);
-      }
     }
 
     // initialize the page
