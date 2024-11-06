@@ -161,10 +161,14 @@
     shareButton.addEventListener('click', (ev) => {
       // TODO redirect to a sharable link by completing the steps below
       // 1. get the current state from localStorage
-      let toDoList = localStorage.getItem("items");
+      let toDoList = localStorage.getItem("items") ?? "[]";
+
+      let currentItemsObj = {
+        items : JSON.parse(toDoList)
+      };
 
       // 2. create a URLSearchParams object from the data you retrieved from localStorage
-      let params = new URLSearchParams(toDoList);
+      let params = new URLSearchParams(currentItemsObj);
 
       // 3. get the current url from window.location
       let curUrl = window.location.href.split("?")[0];
@@ -179,12 +183,19 @@
     })
 
     function populateLocalStorageFromURLSeach() {
-      console.log('populateLocalStorageFromURLSeach')
+      console.log('populateLocalStorageFromURLSearch')
       // TODO update from URL by completing the steps below:
+      if (localStorage.getItem("items") == null) {
+        localStorage.setItem("items", JSON.stringify([]));
+        console.log("items in localStorage wasn't found, adding items");
+      }
       // 1. when the page loads, look to see if the url has a querystring that has the kind of data you added to it above
-      const queryString = window.location.search;
-      console.log("hey look its the query string", queryString);
+      let queryString = new URLSearchParams(window.location.search);
       // 2. if there is such data in the querystring, replace the state in localStorage with the data in the URL
+      let queryStringData = queryString.get("items");
+      let queryStringDataArr = queryString.get("items").split(",");
+      localStorage.setItem("items", JSON.stringify(queryStringDataArr));
+      console.log("value from querystring added to localStorage");
     }
 
     // initialize the page
